@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spotify Clone</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: #121212;
+      color: #ffffff;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Main Workspace (Sidebar + Content) */
+    .workspace {
+      flex: 1;
+      display: flex;
+      min-height: 0;
+    }
+
+    /* Left Sidebar */
+    .sidebar {
+      width: 240px;
+      background-color: #000000;
+      padding: 20px 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex-shrink: 0;
+      overflow-y: auto;
+    }
+
+    .logo-wrap {
+      padding: 0 10px 22px;
+    }
+
+    .logo-wrap img {
+      height: 36px;
+      width: auto;
+      display: block;
+      cursor: pointer;
+    }
+
+    .nav-list {
+      list-style: none;
+      margin-bottom: 22px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 9px 12px;
+      border-radius: 5px;
+      color: #b3b3b3;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.2s, background-color 0.2s;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      color: #ffffff;
+    }
+
+    .nav-item.active {
+      background-color: #282828;
+    }
+
+    .nav-item img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+    }
+
+    .playlist-actions {
+      margin-bottom: 18px;
+    }
+
+    .playlist-links {
+      list-style: none;
+      padding: 6px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    .playlist-links a {
+      color: #b3b3b3;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .playlist-links a:hover {
+      color: #ffffff;
+    }
+
+    .install-app {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px 0;
+      color: #b3b3b3;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .install-app:hover {
+      color: #ffffff;
+    }
+
+    .install-app img {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Main Content Area */
+    .main-content {
+      flex: 1;
+      background: linear-gradient(180deg, #222222 0%, #121212 35%, #121212 100%);
+      padding: 18px 32px 30px;
+      overflow-y: auto;
+    }
+
+    /* Top Bar */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 26px;
+    }
+
+    .nav-arrows img {
+      height: 28px;
+      width: auto;
+      cursor: pointer;
+      display: block;
+    }
+
+    /* Fixed: Render User.png directly without cropping or duplicating text */
+    .user-profile img {
+      height: 32px;
+      width: auto;
+      display: block;
+      cursor: pointer;
+    }
+
+    /* Good Morning Section */
+    .greeting {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 34px;
+    }
+
+    .quick-card {
+      background-color: #303030;
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      height: 70px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .quick-card:hover {
+      background-color: #404040;
+    }
+
+    .quick-card img {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .quick-card span {
+      font-size: 14px;
+      font-weight: 700;
+      padding-right: 10px;
+      line-height: 1.3;
+    }
+
+    /* Shows Section */
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .section-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .section-header a {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #b3b3b3;
+      text-decoration: none;
+    }
+
+    .section-header a:hover {
+      text-decoration: underline;
+    }
+
+    .shows-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 18px;
+    }
+
+    .show-card {
+      background-color: #181818;
+      border-radius: 6px;
+      padding: 14px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .show-card:hover {
+      background-color: #282828;
+    }
+
+    .show-card img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .show-card h3 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .show-card p {
+      font-size: 12px;
+      color: #b3b3b3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Bottom Player Bar */
+    .player-bar {
+      height: 74px;
+      background-color: #181818;
+      border-top: 1px solid #282828;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .player-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 26%;
+    }
+
+    .track-thumb {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 3px;
+    }
+
+    .track-info h4 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .track-info p {
+      font-size: 11px;
+      color: #b3b3b3;
+    }
+
+    .heart-icon {
+      width: 16px;
+      height: 16px;
+      margin-left: 6px;
+      cursor: pointer;
+    }
+
+    .player-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44%;
+    }
+
+    .player-center img {
+      max-width: 100%;
+      height: 52px;
+      object-fit: contain;
+      cursor: pointer;
+    }
+
+    .player-right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: 26%;
+    }
+
+    .player-right img {
+      height: 22px;
+      width: auto;
+      object-fit: contain;
+      cursor: pointer;
+    }
+
+    /* Bottom Green Active Device Banner */
+    .device-banner {
+      height: 22px;
+      background-color: #1ed760;
+      color: #000000;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 36px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="workspace">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+      <div>
+        <div class="logo-wrap">
+          <img src="./assets/Spotify logo.png" alt="Spotify" />
+        </div>
+
+        <ul class="nav-list">
+          <li>
+            <a href="#" class="nav-item active">
+              <img src="./assets/Home.png" alt="Home" />
+              <span>Home</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-item">
+              <img src="./assets/Search.png" alt="Search" />
+              <span>Search</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="nav-item">
+              <img src="./assets/Your library.png" alt="Your Library" />
+              <span>Your Library</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="playlist-actions">
+          <a href="#" class="nav-item">
+            <img src="./assets/Create.png" alt="Create Playlist" />
+            <span>Create Playlist</span>
+          </a>
+          <a href="#" class="nav-item">
+            <img src="./assets/Liked.png" alt="Liked Songs" />
+            <span>Liked Songs</span>
+          </a>
+          <a href="#" class="nav-item">
+            <img src="./assets/your episodes.png" alt="Your Episodes" />
+            <span>Your Episodes</span>
+          </a>
+        </div>
+
+        <ul class="playlist-links">
+          <li><a href="#">FAV</a></li>
+          <li><a href="#">Daily Mix 1</a></li>
+          <li><a href="#">Discover Weekly</a></li>
+          <li><a href="#">Malayalam</a></li>
+          <li><a href="#">Dance / Electronic Mix</a></li>
+          <li><a href="#">EDM / Popular</a></li>
+        </ul>
+      </div>
+
+      <a href="#" class="install-app">
+        <img src="./assets/grommet-icons_install-option.png" alt="Install App" />
+        <span>Install App</span>
+      </a>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div class="nav-arrows">
+          <img src="./assets/top arrow navigation.png" alt="Navigation Arrows" />
+        </div>
+
+        <div class="user-profile">
+          <img src="./assets/User.png" alt="Angel" />
+        </div>
+      </header>
+
+      <!-- Good Morning Section -->
+      <h1 class="greeting">Good morning</h1>
+      <section class="quick-grid">
+        <div class="quick-card">
+          <img src="./assets/Liked.png" alt="Liked Songs" />
+          <span>Liked Songs</span>
+        </div>
+        <div class="quick-card">
+          <img src="./assets/image4.png" alt="Neffex Playlist" />
+          <span>Neffex Playlist</span>
+        </div>
+        <div class="quick-card">
+          <img src="./assets/image3.png" alt="K/DA" />
+          <span>K/DA</span>
+        </div>
+        <div class="quick-card">
+          <img src="./assets/image1.png" alt="Liked Songs" />
+          <span>Liked Songs</span>
+        </div>
+        <div class="quick-card">
+          <img src="./assets/image2.png" alt="Dance / Electronic Mix" />
+          <span>Dance / Electronic Mix</span>
+        </div>
+      </section>
+
+      <!-- Shows You Might Like -->
+      <div class="section-header">
+        <h2>Shows you might like</h2>
+        <a href="#">SEE ALL</a>
+      </div>
+
+      <section class="shows-grid">
+        <article class="show-card">
+          <img src="./assets/image9.png" alt="Weekly Motivation" />
+          <h3>Weekly Motivatio...</h3>
+          <p>Ben Ina Scott</p>
+        </article>
+        <article class="show-card">
+          <img src="./assets/image8.png" alt="MEDITATION SELF" />
+          <h3>MEDITATION SELF</h3>
+          <p>Ibn Hussain Aleen</p>
+        </article>
+        <article class="show-card">
+          <img src="./assets/image7.png" alt="Words beyond action" />
+          <h3>Words beyond act...</h3>
+          <p>Samuel Scott</p>
+        </article>
+        <article class="show-card">
+          <img src="./assets/image6.png" alt="The Alexa Show" />
+          <h3>The Alexa Show</h3>
+          <p>Adriana Tom</p>
+        </article>
+        <article class="show-card">
+          <img src="./assets/image5.png" alt="The Stories of Ma..." />
+          <h3>The Stories of Ma...</h3>
+          <p>Lexus</p>
+        </article>
+        <article class="show-card">
+          <img src="./assets/image10.png" alt="Motivation Daily" />
+          <h3>Motivation Daily b...</h3>
+          <p>Georgina Martha</p>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <!-- Bottom Music Player Bar -->
+  <footer class="player-bar">
+    <div class="player-left">
+      <img src="./assets/image11.png" alt="Dreaming On" class="track-thumb" />
+      <div class="track-info">
+        <h4>Dreaming On</h4>
+        <p>NEFFEX</p>
+      </div>
+      <img src="./assets/bx_bxs-heart.png" alt="Liked" class="heart-icon" />
+    </div>
+
+    <div class="player-center">
+      <img src="./assets/Music Player Options.png" alt="Playback Controls" />
+    </div>
+
+    <div class="player-right">
+      <img src="./assets/Right options.png" alt="Volume & Device Options" />
+    </div>
+  </footer>
+
+  <!-- Active Device Banner -->
+  <div class="device-banner">
+    Listening on ASUS-ROG-G531GT
+  </div>
+
+</body>
+</html>

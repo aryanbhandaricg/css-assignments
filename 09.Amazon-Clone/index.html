@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amazon Clone</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background-color: #e3e6e6;
+    }
+
+    /* Top Navbar */
+    .navbar {
+      height: 60px;
+      background-color: #131921;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      gap: 14px;
+    }
+
+    .nav-logo img {
+      height: 30px;
+      width: auto;
+      display: block;
+      cursor: pointer;
+    }
+
+    .nav-address {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .icon-sm {
+      height: 18px;
+      width: auto;
+    }
+
+    .icon-xs {
+      height: 7px;
+      width: auto;
+      margin-left: 3px;
+    }
+
+    .nav-small {
+      font-size: 11px;
+      color: #cccccc;
+      line-height: 1.2;
+    }
+
+    .nav-bold {
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      line-height: 1.2;
+    }
+
+    /* Search Bar */
+    .nav-search {
+      flex: 1;
+      height: 38px;
+      display: flex;
+      border-radius: 4px;
+      overflow: hidden;
+      background-color: #ffffff;
+    }
+
+    .search-category {
+      background-color: #e6e6e6;
+      color: #555555;
+      padding: 0 10px;
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .nav-search input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 0 10px;
+      font-size: 14px;
+    }
+
+    .search-btn {
+      width: 44px;
+      background-color: #febd69;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .search-btn img {
+      height: 20px;
+      width: auto;
+    }
+
+    .nav-lang {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .flag-icon {
+      height: 16px;
+      width: auto;
+    }
+
+    .nav-item {
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .nav-cart {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .nav-cart img {
+      height: 26px;
+      width: auto;
+    }
+
+    /* Secondary Navbar */
+    .sub-navbar {
+      height: 40px;
+      background-color: #232f3e;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      gap: 10px;
+    }
+
+    .sub-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      overflow: hidden;
+    }
+
+    .sub-nav-links a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 13px;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .all-menu {
+      font-weight: 700;
+    }
+
+    .all-menu img {
+      height: 14px;
+      width: auto;
+    }
+
+    .sub-nav-right {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      height: 100%;
+    }
+
+    .lion-icon {
+      height: 36px;
+      width: auto;
+      display: block;
+    }
+
+    .promo-banner {
+      height: 36px;
+      width: auto;
+      display: block;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      position: relative;
+      width: 100%;
+      max-width: 1500px;
+      margin: 0 auto;
+    }
+
+    .hero-banner-wrap {
+      position: relative;
+      width: 100%;
+    }
+
+    /* Fixed: No cropping, full banner stays visible */
+    .hero-bg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .hero-arrow {
+      position: absolute;
+      top: 26%;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+    }
+
+    .left-arrow {
+      left: 12px;
+    }
+
+    .right-arrow {
+      right: 12px;
+    }
+
+    .hero-arrow img {
+      height: 34px;
+      width: auto;
+    }
+
+    /* 4-Column Cards Overlay */
+    .cards-grid {
+      position: relative;
+      z-index: 2;
+      margin-top: -19%;
+      padding: 0 20px 30px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background-color: #ffffff;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card h2 {
+      font-size: 19px;
+      color: #0f1111;
+      margin-bottom: 14px;
+      line-height: 1.25;
+    }
+
+    .card-grid-2x2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .mini-item img {
+      width: 100%;
+      height: 105px;
+      object-fit: cover;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .mini-item p {
+      font-size: 12px;
+      color: #0f1111;
+      line-height: 1.2;
+    }
+
+    .card-single-img {
+      flex: 1;
+      margin-bottom: 16px;
+    }
+
+    .card-single-img img {
+      width: 100%;
+      height: 100%;
+      min-height: 250px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-link {
+      font-size: 13px;
+      color: #007185;
+      text-decoration: none;
+    }
+
+    .card-link:hover {
+      color: #c7511f;
+      text-decoration: underline;
+    }
+
+    /* Right Column: Sign In + Ad */
+    .card-column-right {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .sign-in-card {
+      padding: 20px;
+    }
+
+    .sign-in-btn {
+      width: 100%;
+      background-color: #ffd814;
+      border: 1px solid #fcd200;
+      border-radius: 8px;
+      padding: 9px 0;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .sign-in-btn:hover {
+      background-color: #f7ca00;
+    }
+
+    .promo-card {
+      background-color: #ffffff;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .promo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-logo">
+      <img src="./assets/logo.png" alt="Amazon Logo" />
+    </div>
+
+    <div class="nav-address">
+      <img src="./assets/location.png" alt="Location" class="icon-sm" />
+      <div>
+        <p class="nav-small">Hello</p>
+        <p class="nav-bold">Select your address</p>
+      </div>
+    </div>
+
+    <div class="nav-search">
+      <div class="search-category">
+        <span>All</span>
+        <img src="./assets/down arrow.png" alt="Dropdown" class="icon-xs" />
+      </div>
+      <input type="text" placeholder="" />
+      <button class="search-btn">
+        <img src="./assets/search icon.png" alt="Search" />
+      </button>
+    </div>
+
+    <div class="nav-lang">
+      <img src="./assets/indian flag.png" alt="India Flag" class="flag-icon" />
+      <img src="./assets/down arrow.png" alt="Dropdown" class="icon-xs" />
+    </div>
+
+    <div class="nav-item">
+      <p class="nav-small">Hello, Sign in</p>
+      <p class="nav-bold">
+        Account &amp; Lists
+        <img src="./assets/down arrow.png" alt="Dropdown" class="icon-xs" />
+      </p>
+    </div>
+
+    <div class="nav-item">
+      <p class="nav-small">Returns</p>
+      <p class="nav-bold">&amp; Orders</p>
+    </div>
+
+    <div class="nav-cart">
+      <img src="./assets/cart icon.png" alt="Cart" />
+      <span class="nav-bold">Cart</span>
+    </div>
+  </header>
+
+  <!-- Secondary Navigation Bar -->
+  <nav class="sub-navbar">
+    <div class="sub-nav-links">
+      <a href="#" class="all-menu">
+        <img src="./assets/ham burger icon.png" alt="Menu" />
+        <span>All</span>
+      </a>
+      <a href="#">Best Sellers</a>
+      <a href="#">Mobiles</a>
+      <a href="#">Customer Service</a>
+      <a href="#">Today's Deals</a>
+      <a href="#">Fashion</a>
+      <a href="#">Electronics</a>
+      <a href="#">Books</a>
+      <a href="#">Prime <img src="./assets/down arrow.png" alt="" class="icon-xs" /></a>
+      <a href="#">New Releases</a>
+      <a href="#">Home &amp; Kitchen</a>
+      <a href="#">Amazon Pay</a>
+    </div>
+
+    <div class="sub-nav-right">
+      <img src="./assets/lion.png" alt="Lion" class="lion-icon" />
+      <img src="./assets/top bar right.png" alt="Prime Day" class="promo-banner" />
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <main class="hero-section">
+    <div class="hero-banner-wrap">
+      <img src="./assets/background picture.png" alt="Hero Banner" class="hero-bg" />
+
+      <button class="hero-arrow left-arrow">
+        <img src="./assets/left arrow.png" alt="Previous" />
+      </button>
+      <button class="hero-arrow right-arrow">
+        <img src="./assets/right arrow.png" alt="Next" />
+      </button>
+    </div>
+
+    <!-- 4-Column Cards Overlay -->
+    <section class="cards-grid">
+
+      <!-- Card 1 -->
+      <div class="card">
+        <h2>Upgrade your home | Amazon Brands &amp; more</h2>
+        <div class="card-grid-2x2">
+          <div class="mini-item">
+            <img src="./assets/image 17.png" alt="Smart LED TVs" />
+            <p>Smart LED TVs</p>
+          </div>
+          <div class="mini-item">
+            <img src="./assets/image 18.png" alt="Appliances" />
+            <p>Appliances</p>
+          </div>
+          <div class="mini-item">
+            <img src="./assets/image 19.png" alt="Furniture" />
+            <p>Furniture</p>
+          </div>
+          <div class="mini-item">
+            <img src="./assets/image 20.png" alt="Kitchen products" />
+            <p>Kitchen products</p>
+          </div>
+        </div>
+        <a href="#" class="card-link">Shop now</a>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card">
+        <h2>Revamp your home in style</h2>
+        <div class="card-grid-2x2">
+          <div class="mini-item">
+            <img src="./assets/image 21.png" alt="Bedsheets & curtains" />
+            <p>Bedsheets, curtains &amp; more</p>
+          </div>
+          <div class="mini-item">
+            <img src="./assets/image 22.png" alt="Home decoration" />
+            <p>Home decoration</p>
+          </div>
+          <div class="mini-item">
+            <img src="./assets/image 24.png" alt="Home storage" />
+            <p>Home storage</p>
+          </div>
+          <div class="mini-item">
+            <img src="./assets/image 25.png" alt="Lighting solutions" />
+            <p>Lighting solutions</p>
+          </div>
+        </div>
+        <a href="#" class="card-link">Explore all</a>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card">
+        <h2>Up to 70% off | Clearance store</h2>
+        <div class="card-single-img">
+          <img src="./assets/image 26.png" alt="Clearance Store" />
+        </div>
+        <a href="#" class="card-link">See more</a>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="card-column-right">
+        <div class="card sign-in-card">
+          <h2>Sign in for your best experience</h2>
+          <button class="sign-in-btn">Sign in securely</button>
+        </div>
+        <div class="promo-card">
+          <img src="./assets/image 28.png" alt="Laptops from top brands" />
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+</body>
+</html>
